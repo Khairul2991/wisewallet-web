@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="wallet-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F8FBFF"/>
+    </linearGradient>
+    <linearGradient id="wallet-facet" x1="0" y1="0" x2=".85" y2="1">
+      <stop offset="0" stop-color="#E1E9F4" stop-opacity=".03"/>
+      <stop offset="1" stop-color="#CAD6E8" stop-opacity=".08"/>
+    </linearGradient>
+  </defs>
+  <g id="wallet" transform="matrix(1.004442 0.097746 0.000184 1.035497 -30.399 -80.054)">
+    <path d="M254 319 774 316C808 316 832 339 832 372V741C832 767 813 786 787 789L261 835C223 838 195 810 195 774V374C195 318 219 254 254 319Z" fill="#0A2D74" opacity=".08" transform="translate(0 5)"/>
+    <path d="M254 316 774 316C808 316 832 339 832 372V741C832 767 813 786 787 789L261 835C223 838 195 810 195 774V374C195 318 219 252 254 316Z" fill="url(#wallet-fill)"/>
+    <path d="M195 694 261 762V835C223 838 195 810 195 774Z" fill="url(#wallet-facet)"/>
+    <path d="M195 694 261 762" fill="none" stroke="#E8EEF7" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+  </g>
+</svg>

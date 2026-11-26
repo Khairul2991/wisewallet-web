@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#1E5CD9">
+  <meta name="description" content="WiseWallet adalah aplikasi keuangan pribadi Android yang local-first dan offline-first. Catat transaksi manual, suara offline, dan foto struk PaddleOCR tanpa login wajib.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WiseWallet | Keuangan Pribadi Offline-First untuk Android">
+  <meta property="og:description" content="SQLite lokal sebagai sumber kebenaran utama. Transaksi manual, dikte suara offline, pindai struk PaddleOCR, anggaran, utang-piutang, ekspor PDF/CSV, dan backup cloud terenkripsi AES-256-GCM.">
+  <meta property="og:image" content="icons/Icon-512.png">
+  <meta property="og:url" content="https://khairul2991.github.io/wisewallet-web/">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+
+  <title>WiseWallet | Aplikasi Keuangan Pribadi Offline-First untuk Android</title>
+
+  <style>
+    :root {
+      color-scheme: light dark;
+      --ww-brand: #1E5CD9;
+      --ww-bg: #F8FAFC;
+      --ww-text: #0F172A;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ww-bg: #0F172A;
+        --ww-text: #F8FAFC;
+      }
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--ww-bg);
+      color: var(--ww-text);
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    }
+    #ww-boot-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background-color: var(--ww-brand);
+      color: #FFFFFF;
+      transition: opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #ww-boot-splash.ww-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ww-boot-logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 22px;
+      box-shadow: 0 12px 32px rgba(10, 45, 116, 0.28);
+    }
+    .ww-boot-title {
+      margin: 0;
+      font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .ww-boot-sub {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.88);
+    }
+    .ww-noscript {
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #ww-boot-splash {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="ww-boot-splash" role="status" aria-live="polite" aria-label="Memuat WiseWallet">
+    <img
+      src="icons/Icon-192.png"
+      alt="Ikon WiseWallet"
+      width="96"
+      height="96"
+      fetchpriority="high"
+      class="ww-boot-logo"
+    >
+    <p class="ww-boot-title">WiseWallet</p>
+    <p class="ww-boot-sub">Menyiapkan halaman utama...</p>
+  </div>
+
+  <noscript>
+    <main class="ww-noscript">
+      <h1>WiseWallet: Keuangan Pribadi Offline-First untuk Android</h1>
+      <p>
+        WiseWallet menyimpan seluruh catatan pemasukan, pengeluaran, dompet, transfer net-zero,
+        anggaran, kalender lokal, utang-piutang, dan multi-profil di SQLite lokal perangkat Anda
+        tanpa login wajib dan tanpa ketergantungan internet.
+      </p>
+      <p>
+        Aktifkan JavaScript untuk membuka simulasi interaktif atau unduh APK langsung melalui
+        <a href="https://github.com/Khairul2991/wisewallet-web/releases">GitHub Releases WiseWallet</a>.
+      </p>
+    </main>
+  </noscript>
+
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('ww-boot-splash');
+      if (!splash) return;
+      splash.classList.add('ww-hidden');
+      window.setTimeout(function () {
+        if (splash && splash.parentNode) {
+          splash.parentNode.removeChild(splash);
+        }
+      }, 320);
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
