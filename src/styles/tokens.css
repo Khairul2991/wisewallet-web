@@ -1,0 +1,155 @@
+:root {
+  color-scheme: light dark;
+
+  /* Raw Light / Dark palette tokens from WiseWallet ART_DIRECTION.md */
+  --brand-light: #1e5cd9;
+  --brand-dark: #60a5fa;
+  --brand-on-light: #ffffff;
+  --brand-on-dark: #0f172a;
+  --brand-soft-light: #eef4ff;
+  --brand-soft-dark: #1e293b;
+  --cyan-light: #03c8f8;
+  --cyan-dark: #38bdf8;
+
+  --income-light: #047857;
+  --income-dark: #34d399;
+  --income-soft-light: #ecfdf5;
+  --income-soft-dark: #064e3b;
+
+  --expense-light: #b91c1c;
+  --expense-dark: #fca5a5;
+  --expense-soft-light: #fef2f2;
+  --expense-soft-dark: #7f1d1d;
+
+  --warning-light: #b45309;
+  --warning-dark: #fbbf24;
+  --warning-soft-light: #fffbeb;
+  --warning-soft-dark: #78350f;
+
+  --canvas-light: #f8fafc;
+  --canvas-dark: #0f172a;
+  --surface-light: #ffffff;
+  --surface-dark: #1e293b;
+  --elevated-light: #f1f5f9;
+  --elevated-dark: #152136;
+
+  --border-light: rgba(15, 23, 42, 0.09);
+  --border-dark: rgba(255, 255, 255, 0.11);
+  --border-strong-light: rgba(15, 23, 42, 0.18);
+  --border-strong-dark: rgba(255, 255, 255, 0.22);
+
+  --text-light: #0f172a;
+  --text-dark: #f8fafc;
+  --text-secondary-light: #475569;
+  --text-secondary-dark: #cbd5e1;
+  --text-muted-light: #5b6b82;
+  --text-muted-dark: #94a3b8;
+
+  --shadow-light: 0 14px 36px rgba(15, 23, 42, 0.08);
+  --shadow-dark: 0 18px 42px rgba(0, 0, 0, 0.36);
+
+  /* Fallback light defaults for browsers without light-dark() */
+  --brand: var(--brand-light);
+  --brand-on: var(--brand-on-light);
+  --brand-soft: var(--brand-soft-light);
+  --cyan: var(--cyan-light);
+  --income: var(--income-light);
+  --income-soft: var(--income-soft-light);
+  --expense: var(--expense-light);
+  --expense-soft: var(--expense-soft-light);
+  --warning: var(--warning-light);
+  --warning-soft: var(--warning-soft-light);
+  --canvas: var(--canvas-light);
+  --surface: var(--surface-light);
+  --elevated: var(--elevated-light);
+  --border: var(--border-light);
+  --border-strong: var(--border-strong-light);
+  --text: var(--text-light);
+  --text-secondary: var(--text-secondary-light);
+  --text-muted: var(--text-muted-light);
+  --shadow-elevated: var(--shadow-light);
+
+  /* Contrast editorial band (stays deep slate in both modes for visual rhythm) */
+  --band-bg: #0f172a;
+  --band-surface: #1a253b;
+  --band-border: rgba(255, 255, 255, 0.12);
+  --band-text: #f8fafc;
+  --band-muted: #cbd5e1;
+
+  /* Typography */
+  --font-heading: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+
+  /* Radius scale from ART_DIRECTION.md */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* Spacing & container */
+  --container-max: 1140px;
+  --header-h: 68px;
+}
+
+/* Reflect manual <meta name="color-scheme"> override in CSS */
+:root:has(> head > meta[name="color-scheme"][content="dark"]) {
+  color-scheme: dark;
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) {
+    --brand: var(--brand-dark);
+    --brand-on: var(--brand-on-dark);
+    --brand-soft: var(--brand-soft-dark);
+    --cyan: var(--cyan-dark);
+    --income: var(--income-dark);
+    --income-soft: var(--income-soft-dark);
+    --expense: var(--expense-dark);
+    --expense-soft: var(--expense-soft-dark);
+    --warning: var(--warning-dark);
+    --warning-soft: var(--warning-soft-dark);
+    --canvas: var(--canvas-dark);
+    --surface: var(--surface-dark);
+    --elevated: var(--elevated-dark);
+    --border: var(--border-dark);
+    --border-strong: var(--border-strong-dark);
+    --text: var(--text-dark);
+    --text-secondary: var(--text-secondary-dark);
+    --text-muted: var(--text-muted-dark);
+    --shadow-elevated: var(--shadow-dark);
+  }
+}
+
+@supports (color: light-dark(white, black)) {
+  :root {
+    --brand: light-dark(var(--brand-light), var(--brand-dark));
+    --brand-on: light-dark(var(--brand-on-light), var(--brand-on-dark));
+    --brand-soft: light-dark(var(--brand-soft-light), var(--brand-soft-dark));
+    --cyan: light-dark(var(--cyan-light), var(--cyan-dark));
+    --income: light-dark(var(--income-light), var(--income-dark));
+    --income-soft: light-dark(var(--income-soft-light), var(--income-soft-dark));
+    --expense: light-dark(var(--expense-light), var(--expense-dark));
+    --expense-soft: light-dark(var(--expense-soft-light), var(--expense-soft-dark));
+    --warning: light-dark(var(--warning-light), var(--warning-dark));
+    --warning-soft: light-dark(var(--warning-soft-light), var(--warning-soft-dark));
+    --canvas: light-dark(var(--canvas-light), var(--canvas-dark));
+    --surface: light-dark(var(--surface-light), var(--surface-dark));
+    --elevated: light-dark(var(--elevated-light), var(--elevated-dark));
+    --border: light-dark(var(--border-light), var(--border-dark));
+    --border-strong: light-dark(var(--border-strong-light), var(--border-strong-dark));
+    --text: light-dark(var(--text-light), var(--text-dark));
+    --text-secondary: light-dark(var(--text-secondary-light), var(--text-secondary-dark));
+    --text-muted: light-dark(var(--text-muted-light), var(--text-muted-dark));
+  }
+}
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]) {
+  --shadow-elevated: var(--shadow-dark);
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) {
+  --shadow-elevated: var(--shadow-light);
+}
