@@ -797,19 +797,25 @@ export function initDemos(i18n) {
     const altList = document.getElementById('alt-abi-list');
     if (altList) {
       altList.innerHTML = RELEASE_CONFIG.variants
-        .map(
-          (v) => `
+        .map((v) => {
+          const sizeLabel = typeof v.size === 'string' ? v.size : id ? v.size.id : v.size.en;
+          return `
           <div class="alt-abi-row">
             <div>
               <strong>${id ? v.title.id : v.title.en}</strong>
-              <small>${id ? v.hint.id : v.hint.en} · ${v.size}</small>
+              <small>${id ? v.hint.id : v.hint.en} · ${sizeLabel}</small>
             </div>
             <a class="btn btn-sm ${v.recommended ? 'btn-primary' : 'btn-outlined'}" href="${v.url}" rel="noopener noreferrer">
               ${id ? 'Unduh' : 'Download'}
             </a>
-          </div>`,
-        )
+          </div>`;
+        })
         .join('');
+    }
+
+    const closeVersionsBtn = document.querySelector('[data-close-dialog="versions-dialog"]');
+    if (closeVersionsBtn) {
+      closeVersionsBtn.setAttribute('aria-label', id ? 'Tutup pilihan versi' : 'Close version picker');
     }
 
     const guideSteps = document.getElementById('guide-steps-list');
@@ -981,6 +987,11 @@ export function initDemos(i18n) {
     // Native <dialog> open / close controls
     if (e.target.closest('#open-guide-btn')) {
       document.getElementById('install-guide-dialog')?.showModal();
+      return;
+    }
+
+    if (e.target.closest('#open-versions-btn')) {
+      document.getElementById('versions-dialog')?.showModal();
       return;
     }
 

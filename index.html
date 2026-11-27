@@ -15,7 +15,8 @@
       content="Aplikasi pencatat keuangan harian offline untuk Android. Langsung pakai tanpa login, lengkap dengan rekam suara, foto struk, anggaran, utang-piutang, dan laporan PDF."
     />
     <meta property="og:type" content="website" />
-    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="64x64" href="./assets/favicon.png" />
 
     <!-- Prevent theme flash before first paint -->
     <script>
@@ -576,15 +577,20 @@
               </a>
             </div>
 
-            <details class="other-versions" id="other-versions">
-              <summary>
+            <div class="other-versions">
+              <button
+                type="button"
+                id="open-versions-btn"
+                class="other-versions-trigger"
+                aria-haspopup="dialog"
+                aria-controls="versions-dialog"
+              >
                 <span data-i18n="dlOtherSummary">Pakai HP Android lama, Chromebook, atau ingin versi lain?</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"></polyline>
+                  <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
-              </summary>
-              <div class="alt-abi-list" id="alt-abi-list"></div>
-            </details>
+              </button>
+            </div>
 
             <p style="margin-top: 14px; font-size: 0.82rem; color: var(--text-muted);" data-i18n="dlIosNote">
               Saat ini unduhan publik tersedia untuk Android. Versi iOS masih dalam tahap persiapan rilis.
@@ -664,6 +670,23 @@
       <button type="button" class="btn btn-primary" style="width: 100%;" data-close-dialog="install-guide-dialog" data-i18n="guideClose">
         Mengerti
       </button>
+    </dialog>
+
+    <!-- Native Dialog: All Android Versions Picker -->
+    <dialog id="versions-dialog" class="wise-dialog wise-dialog-wide" aria-labelledby="versions-dialog-title">
+      <div class="dialog-head">
+        <h3 id="versions-dialog-title" style="font-size: 1.15rem;" data-i18n="versionsTitle">Pilih Versi WiseWallet untuk Android</h3>
+        <button type="button" class="icon-toggle" data-close-dialog="versions-dialog" aria-label="Tutup pilihan versi">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <p class="dialog-sub" data-i18n="versionsSub">
+        Pilih paket yang paling sesuai dengan perangkat Android Anda. Jika ragu, pilih versi paling atas atau versi Universal.
+      </p>
+      <div class="alt-abi-list" id="alt-abi-list"></div>
     </dialog>
 
     <script type="module" src="/src/main.js"></script>

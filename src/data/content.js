@@ -55,7 +55,7 @@ export const RELEASE_CONFIG = {
     {
       id: 'universal',
       fileName: 'app-release.apk',
-      size: 'Semua HP',
+      size: { id: 'Semua HP', en: 'All devices' },
       recommended: false,
       url: `${BASE_DOWNLOAD}/app-release.apk`,
       title: {
@@ -248,6 +248,9 @@ export const COPY = {
     dlGuideBtn: 'Cara Pasang APK',
     dlReleasesBtn: 'Semua Rilis GitHub',
     dlOtherSummary: 'Pakai HP Android lama, Chromebook, atau ingin versi lain?',
+    versionsTitle: 'Pilih Versi WiseWallet untuk Android',
+    versionsSub:
+      'Pilih paket yang paling sesuai dengan perangkat Android Anda. Jika ragu, pilih versi paling atas atau versi Universal.',
     dlIosNote: 'Saat ini unduhan publik tersedia untuk Android. Versi iOS masih dalam tahap persiapan rilis.',
     guideTitle: 'Cara Pasang WiseWallet di Android',
     guideSteps: [
@@ -359,6 +362,9 @@ export const COPY = {
     dlGuideBtn: 'How to Install APK',
     dlReleasesBtn: 'All GitHub Releases',
     dlOtherSummary: 'Using an older Android phone, Chromebook, or need another version?',
+    versionsTitle: 'Choose Your WiseWallet Android Version',
+    versionsSub:
+      'Pick the package that fits your Android device. If unsure, choose the top recommended build or the Universal version.',
     dlIosNote: 'Public downloads are currently available for Android. iOS release preparation is underway.',
     guideTitle: 'How to Install WiseWallet on Android',
     guideSteps: [

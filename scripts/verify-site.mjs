@@ -131,6 +131,9 @@ check('HTML semantics, landmarks, single H1, and non-blocking head (R-39, R-40)'
   const h1Count = (indexHtml.match(/<h1\b/g) || []).length;
   assert.equal(h1Count, 1, `Expected 1 <h1>, found ${h1Count}`);
   assert.ok(indexHtml.includes('fetchpriority="high"'), 'Hero image missing fetchpriority="high"');
+  assert.ok(indexHtml.includes('href="./assets/favicon.svg"'), 'Missing rounded SVG favicon link');
+  assert.ok(indexHtml.includes('id="versions-dialog"'), 'Missing versions picker dialog');
+  assert.ok(fs.existsSync(path.join(root, 'public/assets/favicon.svg')), 'Missing public/assets/favicon.svg');
 });
 
 check('Every internal anchor href="#..." maps to a real id in index.html (R-24)', () => {
