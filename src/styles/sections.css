@@ -912,6 +912,7 @@
 @media (min-width: 940px) {
   .faq-download-grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: center;
   }
 }
 
