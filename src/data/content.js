@@ -266,6 +266,10 @@ export const COPY = {
     contactTitle: 'Ada pertanyaan atau masukan?',
     contactSub:
       'Tulis judul dan pesan Anda di sini. Aplikasi email akan terbuka otomatis dengan pesan yang sudah terisi ke auni4040@gmail.com.',
+    contactB1: 'Laporan bug atau kendala di perangkat Anda',
+    contactB2: 'Usulan fitur baru yang membantu catatan harian',
+    contactB3: 'Pertanyaan umum seputar WiseWallet',
+    contactDirectLabel: 'Email Langsung',
     contactSubjectLabel: 'Judul',
     contactSubjectPlaceholder: 'Contoh: Saran fitur atau laporan bug',
     contactMessageLabel: 'Deskripsi / Pesan',
@@ -392,6 +396,10 @@ export const COPY = {
     contactTitle: 'Have a question or feedback?',
     contactSub:
       'Write your subject and message here. Your email app will open pre-filled to auni4040@gmail.com.',
+    contactB1: 'Bug reports or issues on your device',
+    contactB2: 'Feature ideas to improve daily tracking',
+    contactB3: 'General questions about WiseWallet',
+    contactDirectLabel: 'Direct Email',
     contactSubjectLabel: 'Subject',
     contactSubjectPlaceholder: 'Example: Feature idea or bug report',
     contactMessageLabel: 'Message',
