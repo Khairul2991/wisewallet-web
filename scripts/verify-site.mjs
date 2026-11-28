@@ -97,6 +97,75 @@ check('Release size helpers format real APK byte counts for ID and EN and ignore
   assert.deepEqual(map, { 'app-arm64-v8a-release.apk': 63227462 });
 });
 
+const snapshotData = JSON.parse(
+  fs.readFileSync(path.join(root, 'src/data/release-sizes-snapshot.json'), 'utf8'),
+);
+check('Build-time release size snapshot contains positive sizes for all 4 APK variants', () => {
+  for (const v of contentMod.RELEASE_CONFIG.variants) {
+    const bytes = snapshotData?.sizes?.[v.fileName];
+    assert.ok(typeof bytes === 'number' && bytes > 0, `Missing valid snapshot size for ${v.fileName}`);
+  }
+});
+
+async function checkAsync(name, fn) {
+  try {
+    await fn();
+    console.log(`PASS  ${name}`);
+  } catch (err) {
+    failures.push(`${name}: ${err.message}`);
+    console.error(`FAIL  ${name}\n      ${err.message}`);
+  }
+}
+
+await checkAsync('Daily 24h cache skips network within 24h, refreshes after 24h, and falls back to stale cache offline', async () => {
+  const store = new Map();
+  const storage = {
+    getItem: (k) => (store.has(k) ? store.get(k) : null),
+    setItem: (k, v) => store.set(k, v),
+  };
+  let fetchCount = 0;
+  const t0 = 1_700_000_000_000;
+  const mockFetch = async () => {
+    fetchCount++;
+    return {
+      ok: true,
+      json: async () => ({
+        assets: [{ name: 'app-arm64-v8a-release.apk', size: 63227462 }],
+      }),
+    };
+  };
+
+  // First load fetches and caches
+  const first = await releaseSizesMod.fetchLatestReleaseSizes('https://api.github.com/repos/Khairul2991/wisewallet/releases/latest', {
+    storage,
+    fetchImpl: mockFetch,
+    now: t0,
+  });
+  assert.equal(fetchCount, 1);
+  assert.equal(first['app-arm64-v8a-release.apk'], 63227462);
+
+  // Within 24h uses cache with zero network calls
+  const cached = await releaseSizesMod.fetchLatestReleaseSizes('https://api.github.com/repos/Khairul2991/wisewallet/releases/latest', {
+    storage,
+    fetchImpl: mockFetch,
+    now: t0 + releaseSizesMod.RELEASE_SIZE_CACHE_TTL_MS - 1000,
+  });
+  assert.equal(fetchCount, 1);
+  assert.equal(cached['app-arm64-v8a-release.apk'], 63227462);
+
+  // After 24h refreshes; if offline, falls back to stale cache
+  const offlineStale = await releaseSizesMod.fetchLatestReleaseSizes('https://api.github.com/repos/Khairul2991/wisewallet/releases/latest', {
+    storage,
+    fetchImpl: async () => {
+      fetchCount++;
+      throw new Error('offline');
+    },
+    now: t0 + releaseSizesMod.RELEASE_SIZE_CACHE_TTL_MS + 1000,
+  });
+  assert.equal(fetchCount, 2);
+  assert.equal(offlineStale['app-arm64-v8a-release.apk'], 63227462);
+});
+
 // 3. Copy hygiene: zero em dashes, zero buzzwords, zero developer jargon
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const contentSource = fs.readFileSync(path.join(root, 'src/data/content.js'), 'utf8');

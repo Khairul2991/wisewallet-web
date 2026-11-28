@@ -1,5 +1,5 @@
-const CACHE_KEY = 'ww-release-sizes-v1';
-const CACHE_TTL_MS = 10 * 60 * 1000;
+export const RELEASE_SIZE_CACHE_KEY = 'ww-release-sizes-v2';
+export const RELEASE_SIZE_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 5000;
 
 export function formatAssetSize(bytes, lang = 'id') {
@@ -30,45 +30,85 @@ export function extractReleaseAssetSizes(payload) {
   return sizes;
 }
 
-export async function fetchLatestReleaseSizes(apiUrl) {
+function getDefaultStorage() {
   try {
-    const cached = sessionStorage.getItem(CACHE_KEY);
-    if (cached) {
-      const parsed = JSON.parse(cached);
-      if (
-        parsed &&
-        typeof parsed.ts === 'number' &&
-        Date.now() - parsed.ts < CACHE_TTL_MS &&
-        parsed.sizes &&
-        Object.keys(parsed.sizes).length > 0
-      ) {
-        return parsed.sizes;
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
+
+export function readCachedReleaseSizes({ storage = getDefaultStorage(), now = Date.now() } = {}) {
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(RELEASE_SIZE_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (
+      !parsed ||
+      typeof parsed.ts !== 'number' ||
+      !Number.isFinite(parsed.ts) ||
+      !parsed.sizes ||
+      typeof parsed.sizes !== 'object'
+    ) {
+      return null;
+    }
+    const cleanSizes = {};
+    for (const [name, size] of Object.entries(parsed.sizes)) {
+      if (name.endsWith('.apk') && typeof size === 'number' && Number.isFinite(size) && size > 0) {
+        cleanSizes[name] = size;
       }
     }
+    if (Object.keys(cleanSizes).length === 0) return null;
+    return {
+      sizes: cleanSizes,
+      ts: parsed.ts,
+      isFresh: now - parsed.ts < RELEASE_SIZE_CACHE_TTL_MS,
+    };
   } catch {
-    // Ignore storage read errors
+    return null;
+  }
+}
+
+export async function fetchLatestReleaseSizes(
+  apiUrl,
+  { storage = getDefaultStorage(), fetchImpl = globalThis.fetch, now = Date.now() } = {},
+) {
+  const cached = readCachedReleaseSizes({ storage, now });
+  if (cached && cached.isFresh) {
+    return cached.sizes;
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  if (typeof fetchImpl !== 'function') {
+    return cached ? cached.sizes : null;
+  }
+
+  const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS) : null;
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetchImpl(apiUrl, {
       headers: { Accept: 'application/vnd.github+json' },
-      signal: controller.signal,
+      ...(controller ? { signal: controller.signal } : {}),
     });
-    if (!res.ok) return null;
+    if (!res || !res.ok) {
+      return cached ? cached.sizes : null;
+    }
     const data = await res.json();
     const sizes = extractReleaseAssetSizes(data);
-    if (Object.keys(sizes).length === 0) return null;
-    try {
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), sizes }));
-    } catch {
-      // Ignore storage write errors
+    if (Object.keys(sizes).length === 0) {
+      return cached ? cached.sizes : null;
+    }
+    if (storage) {
+      try {
+        storage.setItem(RELEASE_SIZE_CACHE_KEY, JSON.stringify({ ts: now, sizes }));
+      } catch {
+        // Ignore storage write errors
+      }
     }
     return sizes;
   } catch {
-    return null;
+    return cached ? cached.sizes : null;
   } finally {
-    clearTimeout(timer);
+    if (timer) clearTimeout(timer);
   }
 }

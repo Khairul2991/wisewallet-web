@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+  release:
+    types:
+      - published
+      - edited
+      - deleted
+  schedule:
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -30,6 +37,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Sync latest release APK sizes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run sync-sizes
 
       - name: Run automated site checks
         run: npm run check

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 4173",
+    "sync-sizes": "node scripts/sync-release-sizes.mjs",
     "build": "vite build",
     "preview": "vite preview --port 4173",
     "check": "node scripts/verify-site.mjs"

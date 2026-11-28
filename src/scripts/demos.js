@@ -1,4 +1,5 @@
 import { COPY, OCR_PRESETS, RELEASE_CONFIG, VOICE_PRESETS } from '../data/content.js';
+import releaseSizesSnapshot from '../data/release-sizes-snapshot.json';
 import {
   addDebtPrincipal,
   computeSavingsRate,
@@ -10,7 +11,11 @@ import {
   simulateTransfer,
   toggleDebtWallet,
 } from './finance-math.js';
-import { fetchLatestReleaseSizes, formatAssetSize } from './release-sizes.js';
+import {
+  fetchLatestReleaseSizes,
+  formatAssetSize,
+  readCachedReleaseSizes,
+} from './release-sizes.js';
 
 const CHECK_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 const CHEVRON_SVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
@@ -37,7 +42,10 @@ export function initDemos(i18n) {
     pdfLang: 'id',
     privacyMode: 'passphrase',
     openFaq: 0,
-    releaseSizes: {},
+    releaseSizes: {
+      ...(releaseSizesSnapshot?.sizes ?? {}),
+      ...(readCachedReleaseSizes()?.sizes ?? {}),
+    },
   };
 
   let voiceTimer = null;
