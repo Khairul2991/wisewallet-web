@@ -65,6 +65,7 @@ check('debt helpers lock once paid off', () => {
 // 2. Content & release contract
 const contentMod = await import('../src/data/content.js');
 const releaseSizesMod = await import('../src/scripts/release-sizes.js');
+const contactMod = await import('../src/scripts/contact.js');
 check('Release config points all 4 APK variants to public wisewallet releases', () => {
   assert.equal(contentMod.RELEASE_CONFIG.releasesUrl, 'https://github.com/Khairul2991/wisewallet/releases');
   assert.equal(
@@ -224,7 +225,28 @@ check('HTML semantics, landmarks, single H1, and non-blocking head (R-39, R-40)'
   assert.ok(indexHtml.includes('fetchpriority="high"'), 'Hero image missing fetchpriority="high"');
   assert.ok(indexHtml.includes('href="./assets/favicon.svg"'), 'Missing rounded SVG favicon link');
   assert.ok(indexHtml.includes('id="versions-dialog"'), 'Missing versions picker dialog');
+  assert.ok(indexHtml.includes('id="kontak"'), 'Missing #kontak contact section');
+  assert.ok(indexHtml.includes('id="contact-form"'), 'Missing #contact-form');
+  assert.ok(indexHtml.includes('id="contact-subject"'), 'Missing #contact-subject');
+  assert.ok(indexHtml.includes('id="contact-message"'), 'Missing #contact-message');
+  assert.ok(indexHtml.includes('id="copy-email-btn"'), 'Missing #copy-email-btn');
+  assert.ok(indexHtml.includes('auni4040@gmail.com'), 'Missing contact email in HTML');
   assert.ok(fs.existsSync(path.join(root, 'public/assets/favicon.svg')), 'Missing public/assets/favicon.svg');
+});
+
+check('Contact mailto builder encodes subject/body safely and rejects blank fields', () => {
+  assert.equal(contentMod.CONTACT_EMAIL, 'auni4040@gmail.com');
+  assert.equal(contactMod.buildContactMailtoUrl('auni4040@gmail.com', '   ', 'Halo'), null);
+  assert.equal(contactMod.buildContactMailtoUrl('auni4040@gmail.com', 'Bug', '   '), null);
+  const url = contactMod.buildContactMailtoUrl(
+    'auni4040@gmail.com',
+    'Saran & Bug?',
+    'Baris 1\nBaris 2',
+  );
+  assert.equal(
+    url,
+    'mailto:auni4040@gmail.com?subject=Saran%20%26%20Bug%3F&body=Baris%201%0D%0ABaris%202',
+  );
 });
 
 check('Every internal anchor href="#..." maps to a real id in index.html (R-24)', () => {

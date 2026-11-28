@@ -1,6 +1,8 @@
 const BASE_DOWNLOAD =
   'https://github.com/Khairul2991/wisewallet/releases/latest/download';
 
+export const CONTACT_EMAIL = 'auni4040@gmail.com';
+
 export const RELEASE_CONFIG = {
   version: '1.0.0',
   minAndroid: 'Android 7.0+',
@@ -154,6 +156,7 @@ export const COPY = {
     navFeatures: 'Fitur',
     navPrivacy: 'Privasi',
     navDownload: 'Unduh',
+    navContact: 'Kontak',
     menuLabel: 'Menu',
     heroTitle: 'Catat keuangan harian lebih cepat, privat, dan tanpa internet.',
     heroSub:
@@ -260,6 +263,17 @@ export const COPY = {
       '3. Jika muncul pesan "Aplikasi tidak terpasang" pada HP lama, pilih versi "HP Android Lama (32-bit)" atau "Versi Universal".',
     ],
     guideClose: 'Mengerti',
+    contactTitle: 'Ada pertanyaan atau masukan?',
+    contactSub:
+      'Tulis judul dan pesan Anda di sini. Aplikasi email akan terbuka otomatis dengan pesan yang sudah terisi ke auni4040@gmail.com.',
+    contactSubjectLabel: 'Judul',
+    contactSubjectPlaceholder: 'Contoh: Saran fitur atau laporan bug',
+    contactMessageLabel: 'Deskripsi / Pesan',
+    contactMessagePlaceholder: 'Ceritakan pertanyaan, masukan, atau kendala yang Anda temui...',
+    contactSendBtn: 'Kirim Email',
+    contactCopyBtn: 'Salin Email',
+    contactCopiedBtn: 'Email Disalin',
+    contactErrorEmpty: 'Isi judul dan deskripsi pesan terlebih dahulu.',
     footerEthos: 'Data keuangan Anda tetap milik Anda, tersimpan aman di perangkat sendiri.',
   },
   en: {
@@ -268,6 +282,7 @@ export const COPY = {
     navFeatures: 'Features',
     navPrivacy: 'Privacy',
     navDownload: 'Download',
+    navContact: 'Contact',
     menuLabel: 'Menu',
     heroTitle: 'Track daily money faster, privately, and completely offline.',
     heroSub:
@@ -374,6 +389,17 @@ export const COPY = {
       '3. If an older phone says "App not installed", choose "Older Android Phones (32-bit)" or "Universal Version".',
     ],
     guideClose: 'Got it',
+    contactTitle: 'Have a question or feedback?',
+    contactSub:
+      'Write your subject and message here. Your email app will open pre-filled to auni4040@gmail.com.',
+    contactSubjectLabel: 'Subject',
+    contactSubjectPlaceholder: 'Example: Feature idea or bug report',
+    contactMessageLabel: 'Message',
+    contactMessagePlaceholder: 'Share your question, feedback, or the issue you encountered...',
+    contactSendBtn: 'Send Email',
+    contactCopyBtn: 'Copy Email',
+    contactCopiedBtn: 'Email Copied',
+    contactErrorEmpty: 'Please fill in both the subject and message first.',
     footerEthos: 'Your financial records stay yours, stored safely on your own device.',
   },
 };

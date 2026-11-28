@@ -9,6 +9,7 @@ Halaman web resmi dan portal unduhan APK Android untuk **WiseWallet**, dibangun 
 
 - **Pratinjau Interaktif:** Simulasi fitur utama WiseWallet (Beranda, Kalender, Anggaran, Utang-Piutang, Catat Suara, dan Foto Struk).
 - **Ukuran APK Otomatis & Cache 24 Jam:** Ukuran file untuk seluruh varian APK diambil langsung dari GitHub Releases terbaru, dilengkapi snapshot saat build (`src/data/release-sizes-snapshot.json`) dan cache persisten 24 jam di browser (`localStorage`).
+- **Kontak Langsung:** Section `#kontak` dengan input judul dan pesan yang menyusun `mailto:` ke `auni4040@gmail.com` serta tombol salin email 1-klik.
 - **Deploy Otomatis GitHub Pages:** Workflow `.github/workflows/deploy-pages.yml` berjalan pada setiap `push` ke `main`, jadwal harian (`02:00 UTC` / `09:00 WIB`), dan pemicu manual (`workflow_dispatch`) untuk memperbarui snapshot ukuran APK secara berkala.
 
 ## Menjalankan Secara Lokal

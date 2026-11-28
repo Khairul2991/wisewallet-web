@@ -1,5 +1,6 @@
-import { COPY, OCR_PRESETS, RELEASE_CONFIG, VOICE_PRESETS } from '../data/content.js';
+import { CONTACT_EMAIL, COPY, OCR_PRESETS, RELEASE_CONFIG, VOICE_PRESETS } from '../data/content.js';
 import releaseSizesSnapshot from '../data/release-sizes-snapshot.json';
+import { buildContactMailtoUrl } from './contact.js';
 import {
   addDebtPrincipal,
   computeSavingsRate,
@@ -42,6 +43,7 @@ export function initDemos(i18n) {
     pdfLang: 'id',
     privacyMode: 'passphrase',
     openFaq: 0,
+    emailCopied: false,
     releaseSizes: {
       ...(releaseSizesSnapshot?.sizes ?? {}),
       ...(readCachedReleaseSizes()?.sizes ?? {}),
@@ -50,6 +52,7 @@ export function initDemos(i18n) {
 
   let voiceTimer = null;
   let ocrTimer = null;
+  let copyEmailTimer = null;
 
   const isId = () => i18n.getLang() === 'id';
 
@@ -846,6 +849,23 @@ export function initDemos(i18n) {
     if (guideSteps) {
       guideSteps.innerHTML = copy.guideSteps.map((step) => `<li>${step}</li>`).join('');
     }
+
+    const subjectInput = document.getElementById('contact-subject');
+    if (subjectInput) {
+      subjectInput.setAttribute('placeholder', copy.contactSubjectPlaceholder);
+    }
+    const messageInput = document.getElementById('contact-message');
+    if (messageInput) {
+      messageInput.setAttribute('placeholder', copy.contactMessagePlaceholder);
+    }
+    const copyEmailBtn = document.getElementById('copy-email-btn');
+    if (copyEmailBtn) {
+      copyEmailBtn.textContent = state.emailCopied ? copy.contactCopiedBtn : copy.contactCopyBtn;
+    }
+    const contactError = document.getElementById('contact-error');
+    if (contactError && !contactError.hidden) {
+      contactError.textContent = copy.contactErrorEmpty;
+    }
   }
 
   /* ---------- Event Delegation ---------- */
@@ -1107,6 +1127,78 @@ export function initDemos(i18n) {
       }
       if (dailyEl) dailyEl.textContent = formatRupiah(evalRes.dailyLimit);
     }
+  });
+
+  // Contact form direct mailto composer & 1-tap copy email
+  const contactForm = document.getElementById('contact-form');
+  const contactSubject = document.getElementById('contact-subject');
+  const contactMessage = document.getElementById('contact-message');
+  const contactError = document.getElementById('contact-error');
+
+  function clearContactError() {
+    if (contactError && !contactError.hidden) {
+      contactError.hidden = true;
+      contactError.textContent = '';
+    }
+  }
+
+  contactSubject?.addEventListener('input', clearContactError);
+  contactMessage?.addEventListener('input', clearContactError);
+
+  contactForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const subjectVal = contactSubject?.value ?? '';
+    const messageVal = contactMessage?.value ?? '';
+    const mailtoUrl = buildContactMailtoUrl(CONTACT_EMAIL, subjectVal, messageVal);
+    if (!mailtoUrl) {
+      if (contactError) {
+        contactError.textContent = i18n.getCopy().contactErrorEmpty;
+        contactError.hidden = false;
+      }
+      if (!subjectVal.trim()) {
+        contactSubject?.focus();
+      } else {
+        contactMessage?.focus();
+      }
+      return;
+    }
+    clearContactError();
+    window.location.href = mailtoUrl;
+  });
+
+  document.getElementById('copy-email-btn')?.addEventListener('click', async () => {
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(CONTACT_EMAIL);
+        copied = true;
+      }
+    } catch {
+      copied = false;
+    }
+    if (!copied) {
+      try {
+        const tmp = document.createElement('textarea');
+        tmp.value = CONTACT_EMAIL;
+        tmp.setAttribute('readonly', '');
+        tmp.style.position = 'fixed';
+        tmp.style.opacity = '0';
+        document.body.appendChild(tmp);
+        tmp.select();
+        copied = document.execCommand('copy');
+        document.body.removeChild(tmp);
+      } catch {
+        copied = false;
+      }
+    }
+    if (!copied) return;
+    state.emailCopied = true;
+    renderFaqAndDownload();
+    clearTimeout(copyEmailTimer);
+    copyEmailTimer = setTimeout(() => {
+      state.emailCopied = false;
+      renderFaqAndDownload();
+    }, 2500);
   });
 
   // Backdrop click light-dismiss for native <dialog>
