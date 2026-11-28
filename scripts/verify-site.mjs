@@ -246,7 +246,19 @@ check('Every <section> uses .section-screen for uniform 1-viewport height withou
     assert.equal(/\bstyle="[^"]*padding/i.test(attrs), false, `Section has inline padding override: <section${attrs}>`);
     ids.push(idMatch[1]);
   }
-  assert.deepEqual(ids, ['hero', 'cara-catat', 'fitur', 'laporan', 'privasi', 'faq', 'kontak']);
+  assert.deepEqual(ids, ['hero', 'cara-catat', 'fitur', 'laporan', 'privasi', 'unduh', 'kontak']);
+
+  const navMatch = indexHtml.match(/<nav class="desktop-nav"[\s\S]*?<\/nav>/);
+  assert.ok(navMatch, 'Missing desktop-nav');
+  const sectionIdSet = new Set(ids);
+  const navTargets = [...navMatch[0].matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(navTargets.length > 0, 'Expected desktop nav anchor links');
+  for (const target of navTargets) {
+    assert.ok(
+      sectionIdSet.has(target),
+      `Desktop nav href="#${target}" must target a top-level .section-screen <section>, not a nested child`,
+    );
+  }
 });
 
 check('Contact mailto builder encodes subject/body safely and rejects blank fields', () => {
