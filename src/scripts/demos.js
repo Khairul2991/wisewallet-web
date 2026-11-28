@@ -10,6 +10,7 @@ import {
   simulateTransfer,
   toggleDebtWallet,
 } from './finance-math.js';
+import { fetchLatestReleaseSizes, formatAssetSize } from './release-sizes.js';
 
 const CHECK_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 const CHEVRON_SVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
@@ -36,6 +37,7 @@ export function initDemos(i18n) {
     pdfLang: 'id',
     privacyMode: 'passphrase',
     openFaq: 0,
+    releaseSizes: {},
   };
 
   let voiceTimer = null;
@@ -794,16 +796,30 @@ export function initDemos(i18n) {
         .join('');
     }
 
+    const lang = i18n.getLang();
+    const downloadMeta = document.getElementById('download-meta');
+    if (downloadMeta) {
+      const primaryVariant = RELEASE_CONFIG.variants.find((v) => v.recommended) || RELEASE_CONFIG.variants[0];
+      const liveMainSize = primaryVariant
+        ? formatAssetSize(state.releaseSizes[primaryVariant.fileName], lang)
+        : null;
+      downloadMeta.textContent = liveMainSize ? `${copy.dlMeta} · ${liveMainSize}` : copy.dlMeta;
+    }
+
     const altList = document.getElementById('alt-abi-list');
     if (altList) {
       altList.innerHTML = RELEASE_CONFIG.variants
         .map((v) => {
-          const sizeLabel = typeof v.size === 'string' ? v.size : id ? v.size.id : v.size.en;
+          const liveSize = formatAssetSize(state.releaseSizes[v.fileName], lang);
+          const fallbackSize =
+            v.size == null ? null : typeof v.size === 'string' ? v.size : id ? v.size.id : v.size.en;
+          const sizeLabel = liveSize || fallbackSize;
+          const hintText = `${id ? v.hint.id : v.hint.en}${sizeLabel ? ` · ${sizeLabel}` : ''}`;
           return `
           <div class="alt-abi-row">
             <div>
               <strong>${id ? v.title.id : v.title.en}</strong>
-              <small>${id ? v.hint.id : v.hint.en} · ${sizeLabel}</small>
+              <small>${hintText}</small>
             </div>
             <a class="btn btn-sm ${v.recommended ? 'btn-primary' : 'btn-outlined'}" href="${v.url}" rel="noopener noreferrer">
               ${id ? 'Unduh' : 'Download'}
@@ -1103,4 +1119,11 @@ export function initDemos(i18n) {
 
   renderAll();
   i18n.subscribe(renderAll);
+
+  fetchLatestReleaseSizes(RELEASE_CONFIG.apiLatestUrl).then((sizes) => {
+    if (sizes && Object.keys(sizes).length > 0) {
+      state.releaseSizes = sizes;
+      renderFaqAndDownload();
+    }
+  });
 }

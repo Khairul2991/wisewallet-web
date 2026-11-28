@@ -64,8 +64,13 @@ check('debt helpers lock once paid off', () => {
 
 // 2. Content & release contract
 const contentMod = await import('../src/data/content.js');
+const releaseSizesMod = await import('../src/scripts/release-sizes.js');
 check('Release config points all 4 APK variants to public wisewallet-web releases', () => {
   assert.equal(contentMod.RELEASE_CONFIG.releasesUrl, 'https://github.com/Khairul2991/wisewallet-web/releases');
+  assert.equal(
+    contentMod.RELEASE_CONFIG.apiLatestUrl,
+    'https://api.github.com/repos/Khairul2991/wisewallet-web/releases/latest',
+  );
   assert.equal(contentMod.RELEASE_CONFIG.variants.length, 4);
   const ids = contentMod.RELEASE_CONFIG.variants.map((v) => v.id);
   assert.deepEqual(ids, ['arm64-v8a', 'armeabi-v7a', 'x86_64', 'universal']);
@@ -73,6 +78,23 @@ check('Release config points all 4 APK variants to public wisewallet-web release
     assert.ok(v.url.startsWith('https://github.com/Khairul2991/wisewallet-web/releases/latest/download/'));
     assert.ok(v.url.endsWith('.apk'));
   }
+});
+
+check('Release size helpers format real APK byte counts for ID and EN and ignore non-APK assets', () => {
+  assert.equal(releaseSizesMod.formatAssetSize(63227462, 'id'), '60,3 MB');
+  assert.equal(releaseSizesMod.formatAssetSize(63227462, 'en'), '60.3 MB');
+  assert.equal(releaseSizesMod.formatAssetSize(108583015, 'id'), '103,6 MB');
+  assert.equal(releaseSizesMod.formatAssetSize(0, 'id'), null);
+  assert.equal(releaseSizesMod.formatAssetSize(-5, 'en'), null);
+
+  const map = releaseSizesMod.extractReleaseAssetSizes({
+    assets: [
+      { name: 'app-arm64-v8a-release.apk', size: 63227462 },
+      { name: 'checksums.txt', size: 512 },
+      { name: 'broken.apk', size: 0 },
+    ],
+  });
+  assert.deepEqual(map, { 'app-arm64-v8a-release.apk': 63227462 });
 });
 
 // 3. Copy hygiene: zero em dashes, zero buzzwords, zero developer jargon

@@ -6,11 +6,12 @@ export const RELEASE_CONFIG = {
   minAndroid: 'Android 7.0+',
   repoUrl: 'https://github.com/Khairul2991/wisewallet-web',
   releasesUrl: 'https://github.com/Khairul2991/wisewallet-web/releases',
+  apiLatestUrl: 'https://api.github.com/repos/Khairul2991/wisewallet-web/releases/latest',
   variants: [
     {
       id: 'arm64-v8a',
       fileName: 'app-arm64-v8a-release.apk',
-      size: '~103 MB',
+      size: null,
       recommended: true,
       url: `${BASE_DOWNLOAD}/app-arm64-v8a-release.apk`,
       title: {
@@ -25,7 +26,7 @@ export const RELEASE_CONFIG = {
     {
       id: 'armeabi-v7a',
       fileName: 'app-armeabi-v7a-release.apk',
-      size: '~96 MB',
+      size: null,
       recommended: false,
       url: `${BASE_DOWNLOAD}/app-armeabi-v7a-release.apk`,
       title: {
@@ -40,7 +41,7 @@ export const RELEASE_CONFIG = {
     {
       id: 'x86_64',
       fileName: 'app-x86_64-release.apk',
-      size: '~110 MB',
+      size: null,
       recommended: false,
       url: `${BASE_DOWNLOAD}/app-x86_64-release.apk`,
       title: {
@@ -243,7 +244,7 @@ export const COPY = {
       },
     ],
     dlTitle: 'Siap rapikan keuangan Anda hari ini?',
-    dlMeta: 'Gratis · Tanpa iklan · Android 7.0 ke atas · ~103 MB',
+    dlMeta: 'Gratis · Tanpa iklan · Android 7.0 ke atas',
     dlMainBtn: 'Unduh WiseWallet untuk Android',
     dlGuideBtn: 'Cara Pasang APK',
     dlReleasesBtn: 'Semua Rilis GitHub',
@@ -357,7 +358,7 @@ export const COPY = {
       },
     ],
     dlTitle: 'Ready to organize your daily finances?',
-    dlMeta: 'Free · No ads · Android 7.0 and up · ~103 MB',
+    dlMeta: 'Free · No ads · Android 7.0 and up',
     dlMainBtn: 'Download WiseWallet for Android',
     dlGuideBtn: 'How to Install APK',
     dlReleasesBtn: 'All GitHub Releases',
