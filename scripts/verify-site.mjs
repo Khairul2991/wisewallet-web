@@ -65,17 +65,17 @@ check('debt helpers lock once paid off', () => {
 // 2. Content & release contract
 const contentMod = await import('../src/data/content.js');
 const releaseSizesMod = await import('../src/scripts/release-sizes.js');
-check('Release config points all 4 APK variants to public wisewallet-web releases', () => {
-  assert.equal(contentMod.RELEASE_CONFIG.releasesUrl, 'https://github.com/Khairul2991/wisewallet-web/releases');
+check('Release config points all 4 APK variants to public wisewallet releases', () => {
+  assert.equal(contentMod.RELEASE_CONFIG.releasesUrl, 'https://github.com/Khairul2991/wisewallet/releases');
   assert.equal(
     contentMod.RELEASE_CONFIG.apiLatestUrl,
-    'https://api.github.com/repos/Khairul2991/wisewallet-web/releases/latest',
+    'https://api.github.com/repos/Khairul2991/wisewallet/releases/latest',
   );
   assert.equal(contentMod.RELEASE_CONFIG.variants.length, 4);
   const ids = contentMod.RELEASE_CONFIG.variants.map((v) => v.id);
   assert.deepEqual(ids, ['arm64-v8a', 'armeabi-v7a', 'x86_64', 'universal']);
   for (const v of contentMod.RELEASE_CONFIG.variants) {
-    assert.ok(v.url.startsWith('https://github.com/Khairul2991/wisewallet-web/releases/latest/download/'));
+    assert.ok(v.url.startsWith('https://github.com/Khairul2991/wisewallet/releases/latest/download/'));
     assert.ok(v.url.endsWith('.apk'));
   }
 });

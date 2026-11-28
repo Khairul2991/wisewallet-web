@@ -1,12 +1,12 @@
 const BASE_DOWNLOAD =
-  'https://github.com/Khairul2991/wisewallet-web/releases/latest/download';
+  'https://github.com/Khairul2991/wisewallet/releases/latest/download';
 
 export const RELEASE_CONFIG = {
   version: '1.0.0',
   minAndroid: 'Android 7.0+',
-  repoUrl: 'https://github.com/Khairul2991/wisewallet-web',
-  releasesUrl: 'https://github.com/Khairul2991/wisewallet-web/releases',
-  apiLatestUrl: 'https://api.github.com/repos/Khairul2991/wisewallet-web/releases/latest',
+  repoUrl: 'https://github.com/Khairul2991/wisewallet',
+  releasesUrl: 'https://github.com/Khairul2991/wisewallet/releases',
+  apiLatestUrl: 'https://api.github.com/repos/Khairul2991/wisewallet/releases/latest',
   variants: [
     {
       id: 'arm64-v8a',
