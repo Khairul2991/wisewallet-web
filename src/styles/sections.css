@@ -3,6 +3,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  block-size: var(--header-h);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -13,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  min-height: var(--header-h);
+  block-size: 100%;
 }
 
 .brand-link {
@@ -110,8 +111,72 @@
 }
 
 /* 2. Hero Section */
-.hero {
-  padding-block: clamp(32px, 5vw, 68px) clamp(44px, 6vw, 76px);
+.hero.section-screen {
+  padding-block: 0;
+  justify-content: space-between;
+}
+
+.hero-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  padding-block: clamp(18px, 2.8dvh, 38px);
+}
+
+@media (min-width: 920px) and (max-height: 800px) {
+  .hero-brand-stage {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.9rem, 3.6vw, 2.85rem);
+  }
+
+  .hero-sub {
+    margin-top: 12px;
+  }
+
+  .hero-cta-row {
+    margin-top: 20px;
+  }
+
+  .hero-facts {
+    margin-top: 18px;
+  }
+
+  .phone-card {
+    padding: 14px 16px;
+  }
+
+  .phone-top {
+    margin-bottom: 10px;
+  }
+
+  .phone-balance-box {
+    padding: 12px 14px;
+  }
+
+  .phone-balance-val {
+    font-size: 1.45rem;
+  }
+
+  .phone-io-row {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .phone-wallets,
+  .phone-tx-list,
+  .phone-tabs {
+    margin-top: 10px;
+  }
+
+  .phone-tx {
+    padding: 8px 10px;
+  }
 }
 
 .hero-grid {
@@ -347,11 +412,11 @@
   border-color: var(--border);
 }
 
-/* 3. Clean 4-Pillar Benefit Strip (replaces glitchy marquee) */
+/* 3. Clean 4-Pillar Benefit Strip (docked inside Hero screen) */
 .pillar-strip {
   background: var(--elevated);
   border-block: 1px solid var(--border);
-  padding-block: 22px;
+  padding-block: clamp(14px, 1.8dvh, 20px);
 }
 
 .pillar-grid {
@@ -395,8 +460,32 @@
   gap: 8px;
   overflow-x: auto;
   padding-bottom: 4px;
-  margin-bottom: 22px;
+  margin-bottom: clamp(14px, 2dvh, 22px);
   scrollbar-width: thin;
+}
+
+@media (min-width: 860px) {
+  #capture-stage,
+  #core-stage {
+    min-block-size: clamp(320px, 42dvh, 400px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 920px) and (max-height: 800px) {
+  #capture-stage,
+  #core-stage {
+    min-block-size: 320px;
+    padding-block: 18px;
+  }
+
+  .receipt-box {
+    padding: 10px 12px;
+    line-height: 1.42;
+    margin-top: 10px;
+  }
 }
 
 .tab-btn {
@@ -549,13 +638,13 @@
 .receipt-box {
   position: relative;
   overflow: hidden;
-  padding: 16px;
+  padding: 12px 14px;
   border-radius: var(--radius-md);
   background: var(--elevated);
   border: 1px dashed var(--border-strong);
-  font-size: 0.86rem;
-  line-height: 1.7;
-  margin-top: 14px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  margin-top: 12px;
 }
 
 .receipt-crop-frame {
@@ -727,19 +816,22 @@
 .dot-in { background: var(--income); }
 .dot-out { background: var(--expense); }
 
-/* 6. Editorial Contrast Band: Reports & Privacy */
-.contrast-band {
+/* 5 & 6. Editorial Contrast Band: Reports & Privacy (2 Full-Screen Sections) */
+.section-band {
   background: var(--band-bg);
   color: var(--band-text);
-  padding-block: clamp(60px, 7vw, 96px);
 }
 
-.contrast-band h2,
-.contrast-band h3 {
+.section-band-divided {
+  border-top: 1px solid var(--band-border);
+}
+
+.section-band h2,
+.section-band h3 {
   color: var(--band-text);
 }
 
-.contrast-band .section-head p {
+.section-band .section-head p {
   color: var(--band-muted);
 }
 
@@ -899,7 +991,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
-  margin-top: 22px;
+  margin-top: clamp(14px, 2dvh, 22px);
 }
 
 /* 7. FAQ & Friendly Download Center */
@@ -1159,14 +1251,7 @@ dialog.wise-dialog::backdrop {
   color: var(--brand);
 }
 
-/* 8. Contact Section (Full-Viewport Editorial Split) */
-.contact-section {
-  min-height: calc(100svh - 68px);
-  display: flex;
-  align-items: center;
-  padding-block: clamp(56px, 8vh, 96px);
-}
-
+/* 8. Contact Section (Full-Viewport Editorial Split via .section-screen) */
 .contact-layout {
   display: grid;
   gap: clamp(28px, 4vw, 56px);
@@ -1282,7 +1367,7 @@ dialog.wise-dialog::backdrop {
 }
 
 .contact-textarea {
-  min-height: 176px;
+  min-height: clamp(136px, 19dvh, 176px);
   resize: vertical;
 }
 

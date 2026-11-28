@@ -234,6 +234,21 @@ check('HTML semantics, landmarks, single H1, and non-blocking head (R-39, R-40)'
   assert.ok(fs.existsSync(path.join(root, 'public/assets/favicon.svg')), 'Missing public/assets/favicon.svg');
 });
 
+check('Every <section> uses .section-screen for uniform 1-viewport height without inline padding', () => {
+  const sections = [...indexHtml.matchAll(/<section\b([^>]*)>/g)].map((m) => m[1]);
+  assert.equal(sections.length, 7, `Expected 7 full-screen sections, found ${sections.length}`);
+  const ids = [];
+  for (const attrs of sections) {
+    const classMatch = attrs.match(/\bclass="([^"]*)"/);
+    const idMatch = attrs.match(/\bid="([^"]*)"/);
+    assert.ok(classMatch && /\bsection-screen\b/.test(classMatch[1]), `Section missing section-screen class: <section${attrs}>`);
+    assert.ok(idMatch, `Section missing id attribute: <section${attrs}>`);
+    assert.equal(/\bstyle="[^"]*padding/i.test(attrs), false, `Section has inline padding override: <section${attrs}>`);
+    ids.push(idMatch[1]);
+  }
+  assert.deepEqual(ids, ['hero', 'cara-catat', 'fitur', 'laporan', 'privasi', 'faq', 'kontak']);
+});
+
 check('Contact mailto builder encodes subject/body safely and rejects blank fields', () => {
   assert.equal(contentMod.CONTACT_EMAIL, 'auni4040@gmail.com');
   assert.equal(contactMod.buildContactMailtoUrl('auni4040@gmail.com', '   ', 'Halo'), null);

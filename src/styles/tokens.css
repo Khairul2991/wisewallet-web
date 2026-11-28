@@ -90,6 +90,13 @@
   /* Spacing & container */
   --container-max: 1140px;
   --header-h: 68px;
+  --section-h: calc(100vh - var(--header-h));
+}
+
+@supports (min-block-size: 100dvh) {
+  :root {
+    --section-h: calc(100dvh - var(--header-h));
+  }
 }
 
 /* Reflect manual <meta name="color-scheme"> override in CSS */

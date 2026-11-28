@@ -110,9 +110,10 @@
     </header>
 
     <main id="main-content">
-      <!-- 2. Hero Section -->
-      <section class="hero" id="hero">
-        <div class="container hero-grid">
+      <!-- 2. Hero Section + Integrated 4-Pillar Benefit Strip -->
+      <section class="hero section-screen" id="hero">
+        <div class="hero-main">
+          <div class="container hero-grid">
           <div class="hero-copy">
             <button
               type="button"
@@ -216,11 +217,10 @@
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </section>
 
-      <!-- 3. Clean 4-Pillar Benefit Strip -->
-      <section class="pillar-strip" aria-label="Keunggulan utama WiseWallet">
+        <div class="pillar-strip" aria-label="Keunggulan utama WiseWallet">
         <div class="container pillar-grid">
           <div class="pillar-item reveal-item">
             <span class="pillar-icon" aria-hidden="true">
@@ -274,11 +274,12 @@
               <span data-i18n="p4Desc">Mendukung Bahasa Indonesia, Inggris, serta mode terang dan gelap.</span>
             </div>
           </div>
+          </div>
         </div>
       </section>
 
-      <!-- 4. Three Ways to Capture -->
-      <section class="section" id="cara-catat">
+      <!-- 3. Three Ways to Capture -->
+      <section class="section section-screen" id="cara-catat">
         <div class="container">
           <div class="section-head reveal-item">
             <h2 data-i18n="captureTitle">Tiga cara mencatat, pilih yang paling cepat.</h2>
@@ -303,8 +304,8 @@
         </div>
       </section>
 
-      <!-- 5. Financial Core Interactive Playground -->
-      <section class="section section-alt" id="fitur">
+      <!-- 4. Financial Core Interactive Playground -->
+      <section class="section section-alt section-screen" id="fitur">
         <div class="container">
           <div class="section-head reveal-item">
             <h2 data-i18n="coreTitle">Semua kebutuhan keuangan dalam satu aplikasi.</h2>
@@ -335,9 +336,9 @@
         </div>
       </section>
 
-      <!-- 6. Editorial Contrast Band: Reports & Privacy -->
-      <div class="contrast-band">
-        <section class="container" id="laporan" style="padding-bottom: clamp(48px, 6vw, 72px)">
+      <!-- 5. Reports Editorial Contrast Section -->
+      <section class="section section-band section-screen" id="laporan">
+        <div class="container">
           <div class="section-head reveal-item">
             <h2 data-i18n="reportsTitle">Laporan jelas, siap dikirim ke PDF atau Excel.</h2>
             <p data-i18n="reportsSub">
@@ -459,13 +460,12 @@
               <div id="export-preview-stage" aria-live="polite"></div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section
-          class="container"
-          id="privasi"
-          style="padding-top: clamp(44px, 5vw, 68px); border-top: 1px solid var(--band-border);"
-        >
+      <!-- 6. Privacy Editorial Contrast Section -->
+      <section class="section section-band section-band-divided section-screen" id="privasi">
+        <div class="container">
           <div class="section-head reveal-item">
             <h2 data-i18n="privacyTitle">Privasi terjaga di HP Anda, cadangan cloud tetap aman.</h2>
             <p data-i18n="privacySub">
@@ -520,11 +520,11 @@
               </p>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <!-- 7. FAQ & Friendly Download Center -->
-      <section class="section" id="faq">
+      <section class="section section-screen" id="faq">
         <div class="container faq-download-grid">
           <div class="reveal-item">
             <div class="section-head" style="margin-bottom: 22px;">
@@ -601,7 +601,7 @@
       </section>
 
       <!-- 8. Contact Section -->
-      <section class="section section-alt contact-section" id="kontak">
+      <section class="section section-alt section-screen contact-section" id="kontak">
         <div class="container">
           <div class="contact-layout reveal-item">
             <div class="contact-info">
